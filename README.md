@@ -40,7 +40,7 @@ User → HTML Form → PHP Backend → AWS S3 Bucket
 
 ```
 /project-root
-│── index.html          # Upload Form UI
+│── From.html          # Upload Form UI
 │── upload.php          # Main upload logic
 │── db.php              # Database connection file
 │── README.md           # Project documentation
