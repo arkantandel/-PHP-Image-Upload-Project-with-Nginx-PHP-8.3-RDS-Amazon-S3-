@@ -1,242 +1,197 @@
-A fully cloud‑powered image upload pipeline using AWS EC2, Nginx, PHP 8.3, MySQL RDS, and Amazon S3. This project demonstrates how real production systems handle image storage, database records, IAM‑based access, and secure backend processing.
-🚀 High‑Level Architecture
-User → EC2 Instance (Nginx + PHP 8.3)
-│
-├──> MySQL RDS (Stores File Metadata)
-│
-└──> Amazon S3 Bucket (Stores Uploaded Images)
+# 🌈🚀 **Ultimate Cloud Upload System (AWS S3 + PHP + MySQL)**
 
-🧰 Technologies Used
+A modern, professional, and production-ready cloud project built with **AWS S3**, **PHP**, and **# 🌟 Why This Project Is Next-Level
+This isn’t just another tutorial project.
+This is a **production-grade, beautifully engineered, cloud-integrated system** — written, designed, and documented to impress both recruiters and developers. developers who want to understand real-world cloud architecture.
 
-AWS Services: EC2, S3, RDS (MySQL), IAM, VPC
+---
 
-PHP 8.3 with Extensions
+# 🌟 Why This Project Is Next-Level
 
-Nginx Web Server
+This isn’t just another tutorial project.
+This is a **productio
+This project allows users to upload files (images/documents) through a clean front-end form. The uploaded files are securely stored in **Amazon S3**, and user details + file information are stored in **MySQL DB**.
 
-MySQL (AWS RDS)
+This replicates **real industry-level cloud workflows** and helps developers understand how full-stack cloud systems work behind the scenes.
 
-Ubuntu Linux
+---
 
-Composer + AWS SDK for PHP
+# 🏗 Architecture Diagram
 
-HTML5 & Form Data Upload
+```
+User → HTML Form → PHP Backend → AWS S3 Bucket
+                               ↳ MySQL Database
+```
 
-📌 Project Features
-✔ Secure Image Upload (S3)
+---
 
-Uploads images directly to an Amazon S3 bucket via PHP SDK.
+# ✨ Features
 
-✔ Metadata Storage in MySQL RDS
+* 📤 Upload images/files from a web form
+* ☁ Store files directly in **AWS S3**
+* 🗄 Save metadata (name, file path, timestamp) in **MySQL**
+* 🔐 Secure IAM access management
+* 🧩 Clean, modular, beginner‑friendly code
+* 📝 Fully documented & easy to extend
 
-Every upload stores file name, path, and timestamp into RDS.
+---
 
-✔ Lightweight, Fast & Scalable
+# 📂 Project Structure
 
-Built on Nginx + PHP-FPM, ideal for production environments.
-
-✔ AWS IAM Role Integration
-
-Provides secure access to S3 without exposing secrets.
-
-✔ Clean, Modular Code Structure
-
-Easy to modify, extend, or integrate with CI/CD.
-
-🛠 Prerequisites
-
-Before deploying this project, ensure you have:
-
-🟢 AWS Account
-
-🟢 EC2 Ubuntu Instance (PHP 8.3 + Nginx installed)
-
-🟢 IAM Role with S3 Full Access (attached to EC2)
-
-🟢 MySQL RDS Database
-
-🟢 S3 Bucket (public or private)
-
-🟢 Composer Installed
-
-📂 Project Structure
-
+```
 /project-root
-│
-├── form.html # Frontend UI for file upload
-├── upload.php # Backend PHP file for upload logic
-├── README.md # Project documentation
-└── Images/ # Uploaded images or assets
+│── index.html          # Upload Form UI
+│── upload.php          # Main upload logic
+│── db.php              # Database connection file
+│── README.md           # Project documentation
+│── /uploads            # Temporary uploads (optional)
+```
 
-🔵 STEP 1 — Create AWS Resources
-1. Create an S3 Bucket
+---
 
-Example name:
-my-upload-bucket-arkan
-Keep defaults → Bucket created.
+# 🧑‍💻 Tech Stack
 
-2. Create RDS (MySQL)
+* **HTML5** – User interface
+* **PHP** – Backend & AWS integration
+* **AWS S3** – Cloud storage
+* **MySQL** – Database for storing records
+* **IAM Roles & Policies** – Secure access
 
-Engine: MySQL
+---
 
-Instance class: db.t3.micro
+# 🔧 Setup Instructions
 
-Note these details:
+## 1️⃣ Clone the Repo
 
-HOST
+```
+git clone https://github.com/arkantandel
+```
 
-DB NAME
+## 2️⃣ Configure AWS
 
-USERNAME
+* Create S3 bucket
+* Create IAM user with S3 permissions
+* Download AWS access/secret keys
 
-PASSWORD
+## 3️⃣ Setup Database
 
-You need them in PHP later.
+Create a table:
 
-3. Create EC2 Ubuntu Instance
+```
+CREATE TABLE uploads (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255),
+  file_path VARCHAR(500),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
 
-AMI: Ubuntu 22.04
+## 4️⃣ Update `db.php`
 
-Type: t2.micro
+Add your DB host, user, pass, and DB name.
 
-Security Group:
+## 5️⃣ Update AWS Credentials in `upload.php`
 
-SSH → 22
+Add your:
 
-HTTP → 80
+* AWS Access Key
+* AWS Secret Key
+* Region
+* Bucket name
 
-Key pair: Download it
+## 6️⃣ Run the project
 
-4. Attach IAM Role to EC2
+Place files in your local server (`XAMPP/htdocs` or similar).
 
-Create a role → EC2 use case → attach the following S3 permissions:
-"AmazonS3FullAccess"
+```
+http://localhost/project/index.html
+```
 
-Attach role to EC2 instance.
+---
 
-This means:
-EC2 will upload to S3 without access keys.
-(More secure + professional)
+# 📄 Code Snippets
 
-🔵 STEP 2 — Connect to EC2 and Install Requirements
+## **index.html** (Upload Form)
 
-SSH into EC2:
- ssh -i key.pem ubuntu@YOUR_EC2_PUBLIC_IP
- Update system:
- sudo apt update && sudo apt upgrade -y
+```html
+<form action="upload.php" method="post" enctype="multipart/form-data">
+  <label>Your Name:</label>
+  <input type="text" name="name" required>
 
-*Install Nginx:
-sudo apt install nginx -y
+  <label>Select File:</label>
+  <input type="file" name="file" required>
 
-*Install PHP 8.3 + required extensions:
-sudo apt install php8.3 php8.3-fpm php8.3-mysql php8.3-curl php8.3-mbstring php8.3-xml -y
+  <button type="submit">Upload</button>
+</form>
+```
 
-Install Composer:
-sudo apt install composer -y
+## **upload.php** (AWS Upload Logic)
 
-sudo mkdir -p /var/www/html/upload-project
-sudo chown -R ubuntu:www-data /var/www/html/upload-project
+```php
+require 'vendor/autoload.php';
+use Aws\S3\S3Client;
 
-🔵 STEP 3 — Install AWS SDK (Needed for S3 Upload)
-Go to the project folder:
+$name = $_POST['name'];
+$file = $_FILES['file'];
 
-cd /var/www/html/upload-project
+$s3 = new S3Client([
+    'region' => 'ap-south-1',
+    'version' => 'latest',
+    'credentials' => [
+        'key' => 'YOUR_ACCESS_KEY',
+        'secret' => 'YOUR_SECRET_KEY'
+    ]
+]);
 
-Install SDK:
-composer require aws/aws-sdk-php
+$s3->putObject([
+    'Bucket' => 'your-bucket-name',
+    'Key' => $file['name'],
+    'SourceFile' => $file['tmp_name'],
+    'ACL' => 'public-read',
+]);
+```
 
-🔵 STEP 4 — Create MySQL Table inside RDS
+---
 
-Open MySQL client (from your local computer or EC2):
- "mentioned"
+# 🧠 What You Learn
 
- 🔵 STEP 5 — Create the Upload Form (form.html)
+* How backend sends files to cloud storage
+* How databases store dynamic metadata
+* How AWS credentials & permissions work
+* How to design small‑scale production systems
+* How re# 👨‍💻 Author & Socials
 
- nano /var/www/html/upload-project/form.html
+### **Arkan Tandel — Cloud & DevOps Learner 🚀**
 
-"mentione in home"
+👉 **GitHub:** [https://github.com/arkantandel](https://github.com/arkantandel)
+👉 **LinkedIn:** [https://linkedin.com/arkantandel](https://linkedin.com/arkantandel)
+✨ _If you like this project, drop a ⭐ on GitHub — it motivates more creations!_t
 
-🔵 STEP 6 — Create upload.php (Main Logic)
+---
 
-Create file: nano /var/www/html/upload-project/upload.php
-Paste this simple and beginner-friendly PHP code:
- "mentioned in home"
+# ⭐ Future Enhancements
 
-💡 This script:
-✔ Uploads file to S3
-✔ Saves metadata to RDS
-✔ Shows public S3 URL
+* 👤 User authentication
+* 📦 Multi-folder S3 organization
+* 🧹 File deletion system
+* 🖼 File preview gallery
 
-🔵 STEP 7 — Configure Nginx for PH
-sudo nano /etc/nginx/sites-available/default
-  "And add the port 80 "
+---
 
-  Restart Nginx: sudo systemctl restart nginx
+# 👨‍💻 Author & Links
 
-🔵 STEP 8 — Test the Application
+**Arkan Tandel**
+🔗 GitHub: [https://github.com/arkantandel](https://github.com/arkantandel)
+🔗 LinkedIn: [https://linkedin.com/arkantandel](https://linkedin.com/arkantandel)
 
-Open browser:
+---
 
-http://YOUR_EC2_PUBLIC_IP/form.html
+# 💬 Contribute
 
+If you want to improve this project, feel free to open a pull request!
 
-Try uploading an image.
+---
 
-If everything is correct, it will:
+# 🎉 Thank You!
 
-✔ Upload to S3
-✔ Store in MySQL (RDS)
-✔ Show success message + S3 image URL
-
-🎉 Your Project Is Now Fully Working!
-
-You now have a real cloud-based image upload system used by companies in production.
-  
-
-
-🧠 upload.php (Backend Logic)
-
-Handles:
-
-File validation
-
-Uploading to S3 via AWS PHP SDK
-
-Storing metadata to RDS using MySQLi / PDO
-
-Error handling & output messages
-
-🔐 Security Implementations
-
-IAM Role-based Access → No hardcoded AWS keys
-
-File type validation (JPG, PNG, GIF recommended)
-
-Safe handling of upload paths
-
-Nginx rules for secure uploads
-
-💡 Why This Project Is Useful?
-
-Helps beginners understand real-world cloud integrations
-
-Perfect for deploying as a mini portfolio project
-
-Demonstrates backend + cloud architecture skills
-
-Recruiters love this kind of practical AWS project
-
-📘 Future Enhancements
-
-Add CloudFront CDN support
-
-Auto-image optimization using Lambda
-
-Add login/authentication
-
-Add frontend preview and gallery
-
-👨‍💻 Author & Links
-
-Arkan Tandel
-🔗 LinkedIn: https://linkedin.com/arkantandel
+If this project helped you, please ⭐ the repo & share feedback!
