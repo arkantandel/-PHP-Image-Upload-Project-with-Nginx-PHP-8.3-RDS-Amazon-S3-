@@ -50,6 +50,6 @@ $insert = $pdo->prepare(
 );
 $insert->execute([$name, $s3_url, $mime, $size]);
 
-echo "Upload Successful!<br>";
+echo "Upload Successful thanku from the arkan tandel !<br>";
 echo "Image URL: <a href='$s3_url' target='_blank'>$s3_url</a>";
 ?>
