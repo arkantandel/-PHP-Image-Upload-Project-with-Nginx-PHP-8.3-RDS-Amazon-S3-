@@ -219,4 +219,44 @@ $s3->putObject([
 
 ---
 
-# 🚀 Future Enterprise E
+# 🚀 Future Enterprise Enhancements
+
+🔐 User Authentication System  
+📁 Folder Based Upload Structure  
+📊 Admin Dashboard  
+🖼 File Preview System  
+📦 Multi Region S3 Replication  
+
+---
+
+# 👨‍💻 Project Owner
+
+## Arkan Tandel  
+Cloud & DevOps Engineer 🚀  
+
+GitHub: https://github.com/arkantandel  
+LinkedIn: https://linkedin.com/in/arkan-tandel-81709b360  
+
+---
+
+# ❤️ Owner Message
+
+I built this project to simulate real-world cloud storage workflows  
+and strengthen hands-on cloud + backend integration skills.
+
+---
+
+# ⭐ Support
+
+If you like this project → ⭐ Star the repository  
+If you want to contribute → Pull Requests are welcome  
+
+---
+
+<!-- FOOTER BANNER -->
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00c6ff,50:2c5364,100:0f2027&height=120&section=footer"/>
+</p>
+
+
